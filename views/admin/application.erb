@@ -1,0 +1,19 @@
+<p><a href="<%= url('/admin/applications') %>">Back to application list</a></p>
+
+<h3>Application: <%= @application.company.business_name %></h3>
+
+<ul>
+  <li>Created At: <%= @application.created_at.strftime('%D %T') %></li>
+  <li>Updated At: <%= @application.updated_at.strftime('%D %T') %></li>
+</ul>
+
+<h5>Decision:</h5>
+<pre><%= JSON.pretty_generate(@application.decision.to_hash) %></pre>
+
+<h5>Company:</h5>
+<pre><%= JSON.pretty_generate(@application.company.to_hash) %></pre>
+
+<h5>Owner(s):</h5>
+<% (@application.owners || []).each do |owner| %>
+  <pre><%= JSON.pretty_generate(owner.to_hash) %></pre>
+<% end %>

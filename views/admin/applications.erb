@@ -1,0 +1,21 @@
+
+<h3>Applications</h3>
+
+<table class="table">
+  <thead>
+    <th>Company</th>
+    <th>Preapproved?</th>
+    <th>Offers</th>
+    <th>Created At</th>
+    <th>Updated At</th>
+  </thead>
+  <% @applications.each do |key, application| %>
+    <tr>
+      <td><a href="<%= url("/admin/application/#{application.company.uuid}") %>"><%= application.company.business_name %></a></td>
+      <td><%= application.decision.preapproved %></td>
+      <td><%= (application.decision.offers || []).size %></td>
+      <td><%= application.created_at.strftime('%D %T') %></td>
+      <td><%= application.updated_at.strftime('%D %T') %></td>
+    </tr>
+  <% end %>
+</table>

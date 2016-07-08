@@ -1,0 +1,11 @@
+<h1>Welcome to <%= @organization %>!</h1>
+
+<p>Apply below to secure funding for your business.</p>
+
+<% if @offer %>
+  <p><%= @application.company.business_name %> has a <strong>$<%= @offer.loan_approval_amount %>, <%= @offer.term %>-month</strong> loan offer!</p>
+<% else %>
+  <p><%= @application.company.business_name %> has <%= @application.decision.offers.size %> potential loan offer(s)!</p>
+<% end %>
+
+<p>[Form for customer to create an account, or whatever is appropriate.]</p>

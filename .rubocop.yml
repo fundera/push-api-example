@@ -1,0 +1,119 @@
+Rails:
+  Enabled: true
+
+AllCops:
+  TargetRubyVersion: 2.3
+  Exclude:
+    - "db/**/*"
+    - "config/**/*"
+    - "script/**/*"
+    - "node_modules/**/*"
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/Encoding:
+  Enabled: false
+
+# Get rid of trailing "if" and "unless"
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/NegatedIf:
+  Enabled: false
+
+Style/MutableConstant:
+  Enabled: false
+
+# Disable all metrics around file/line size
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/AbcSize:
+    Enabled: false
+
+Metrics/BlockNesting:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+# Timezone complaints
+Rails/TimeZone:
+  Enabled: false
+
+Rails/Date:
+  Enabled: false
+
+# Misc
+Style/SingleLineBlockParams:
+  Enabled: false
+
+Rails/FindBy:
+  Enabled: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/UnneededPercentQ:
+  Enabled: false
+
+Style/RaiseArgs:
+  EnforcedStyle: compact
+
+Style/Next:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/AccessorMethodName:
+  Enabled: false
+
+Lint/HandleExceptions:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Style/PredicateName:
+  NamePrefixBlacklist:
+    - is_
+
+# Rules to maybe reenable if someone wants to clean up the resulting errors.
+Rails/Validation:
+  Enabled: false
+
+# For Ruby 2.3 -> 3.0 Transition
+Style/FrozenStringLiteralComment:
+  Enabled: false
