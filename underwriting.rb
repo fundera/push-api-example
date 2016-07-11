@@ -19,7 +19,8 @@ class Underwriting
             term: [12, 24, 36].sample,
             interest_rate: [15.0, 18.0, 21.0].sample,
             repayment: ['Daily', 'Weekly', 'Bi-Weekly', 'Monthly'].sample,
-            origination_fee: [1.0, 2.0].sample
+            origination_fee: [1.0, 2.0].sample,
+            miscellaneous_fee: [100, 200, 300].sample
           )
         end
         return Decision.new(preapproved: true, offers: offers)

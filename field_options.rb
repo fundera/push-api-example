@@ -97,16 +97,6 @@ module FieldOptions
     'Nonprofit Corporation / 501c3'
   ]
 
-  LAST_BANKRUPTCY = [
-    'No bankruptcies',
-    'Discharged 7+ years ago',
-    'Discharged 4+ years ago',
-    'Discharged 3+ years ago',
-    'Discharged 2+ years ago',
-    'Discharged 1+ years ago',
-    'Yes, less than a year ago'
-  ]
-
   BUSINESS_LOCATION_TYPE = [
     'Home',
     'Office',
@@ -119,6 +109,13 @@ module FieldOptions
     'Own'
   ]
 
+  OFFICER_IN_LAWSUIT = [
+    'No previous or current legal actions',
+    'Current or previous criminal case',
+    'Pending or current liability judgment',
+    'Other current or previous legal action against this business'
+  ]
+
   CREDIT_SCORE = [
     'Excellent (700+)',
     'Excellent (660-699)',
@@ -127,6 +124,16 @@ module FieldOptions
     'Fair (580-619)',
     'Fair (550-579)',
     'Challenged (Below 550)'
+  ]
+
+  LAST_BANKRUPTCY = [
+    'No bankruptcies',
+    'Discharged 7+ years ago',
+    'Discharged 4-7 years ago',
+    'Discharged 3-4 years ago',
+    'Discharged 2-3 years ago',
+    'Discharged 1-2 years ago',
+    'Discharged less than a year ago'
   ]
 
   RESIDENCE_RENT_OR_OWN = [
@@ -138,13 +145,6 @@ module FieldOptions
     'US Citizen',
     'Permanent Resident',
     'Other'
-  ]
-
-  OFFICER_IN_LAWSUIT = [
-    'No previous or current legal actions',
-    'I have a current criminal case',
-    'I have a pending or current liability judgment',
-    'I have other current or previous legal action'
   ]
 
   REPAYMENT = [

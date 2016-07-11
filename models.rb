@@ -19,6 +19,7 @@ class Owner < Model
   field :zip, String
   field :ssn, String
   field :credit_score, String, value_in: FieldOptions::CREDIT_SCORE
+  field :last_bankruptcy, String, required: false, value_in: FieldOptions::LAST_BANKRUPTCY
   field :drivers_license_number, String, required: false
   field :drivers_license_state, String, required: false
   field :drivers_license_expiration, String, required: false, date: true
@@ -32,7 +33,6 @@ class Owner < Model
   field :value_of_nonretirement_assets, Integer, required: false
   field :value_of_retirement_assets, Integer, required: false
   field :citizenship, String, required: false, value_in: FieldOptions::CITIZENSHIP
-  field :officer_in_lawsuit, String, required: false, value_in: FieldOptions::OFFICER_IN_LAWSUIT
 end
 
 class Company < Model
@@ -55,12 +55,12 @@ class Company < Model
   field :average_bank_balance, Integer, required: false
   field :accounts_receivable, Integer, required: false
   field :business_inception, String, date: true
-  field :last_bankruptcy, String, required: false, value_in: FieldOptions::LAST_BANKRUPTCY
   field :outstanding_tax_lien, Integer, required: false
   field :credit_card_volume_per_month, Integer, required: false
   field :business_location_type, String, required: false, value_in: FieldOptions::BUSINESS_LOCATION_TYPE
   field :monthly_business_location_payment, Integer, required: false
   field :business_location_rent_or_own, String, required: false, value_in: FieldOptions::BUSINESS_LOCATION_RENT_OR_OWN
+  field :officer_in_lawsuit, String, required: false, value_in: FieldOptions::OFFICER_IN_LAWSUIT
 end
 
 class Offer < Model
@@ -70,7 +70,7 @@ class Offer < Model
   field :factor_rate, Float, required: false
   field :interest_rate, Float, required: false
   field :origination_fee, Float
-  field :misc_fee, Float, required: false
+  field :miscellaneous_fee, Integer, required: false
   field :url, String, required: false
 
   def valid?

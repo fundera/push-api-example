@@ -68,9 +68,10 @@ describe 'the example app' do
             city: 'New York',
             state: 'NY',
             zip: '10014',
-            ssn: '666-00-6417',
+            ssn: '666006417',
             credit_score: 'Good (640-659)',
-            drivers_license_number: '12-345-678',
+            last_bankruptcy: 'No bankruptcies',
+            drivers_license_number: '123-45-678',
             drivers_license_state: 'NY',
             drivers_license_expiration: '2020-01-01',
             passport_number: '1234567',
@@ -82,8 +83,7 @@ describe 'the example app' do
             value_of_liquid_assets: 20_000,
             value_of_nonretirement_assets: 40_000,
             value_of_retirement_assets: 30_000,
-            citizenship: 'US Citizen',
-            officer_in_lawsuit: 'No previous or current legal actions'
+            citizenship: 'US Citizen'
           },
           {
             uuid: '62og0vw4-lt52-4qdi-2f7a-08b74mf3de32',
@@ -98,8 +98,9 @@ describe 'the example app' do
             city: 'Omaha',
             state: 'FL',
             zip: '99123',
-            ssn: '666-77-6417',
+            ssn: '666776417',
             credit_score: 'Fair (580-619)',
+            last_bankruptcy: 'No bankruptcies',
             drivers_license_number: '12-345-679',
             drivers_license_state: 'NY',
             drivers_license_expiration: '2020-01-01',
@@ -112,8 +113,7 @@ describe 'the example app' do
             value_of_liquid_assets: 20_000,
             value_of_nonretirement_assets: 40_000,
             value_of_retirement_assets: 30_000,
-            citizenship: 'US Citizen',
-            officer_in_lawsuit: 'No previous or current legal actions'
+            citizenship: 'US Citizen'
           }
         ],
         company: {
@@ -130,18 +130,18 @@ describe 'the example app' do
           state: 'VA',
           zip: '11218',
           phone_number: '6467192840',
-          ein: '12-1234567',
+          ein: '121234567',
           number_of_employees: 19,
           annual_revenue: 1_800_000,
           average_bank_balance: 40_000,
           accounts_receivable: 25_000,
           business_inception: '2010-02-10',
-          last_bankruptcy: 'No bankruptcies',
           outstanding_tax_lien: 0,
           credit_card_volume_per_month: 20_000,
           business_location_type: 'Office',
           monthly_business_location_payment: 2_000,
-          business_location_rent_or_own: 'Rent'
+          business_location_rent_or_own: 'Rent',
+          officer_in_lawsuit: 'No previous or current legal actions'
         }
       }
     end
