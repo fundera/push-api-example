@@ -87,7 +87,7 @@ post '/api/v1/prequalify' do
       response_hash[:updated] = application.created_at != application.updated_at
       [200, JSON.pretty_generate(response_hash)]
     else
-      [500, application.errors.join("\n")]
+      [422, application.errors.join("\n")]
     end
   end
 end

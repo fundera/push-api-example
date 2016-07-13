@@ -46,7 +46,7 @@ describe 'the example app' do
     it 'returns a 500 validation error in the response with valid auth and valid but empty JSON body' do
       header 'Authorization', auth_header
       post '/api/v1/prequalify', '{}'
-      assert_equal 500, last_response.status
+      assert_equal 422, last_response.status
       assert_match(/company is required/, last_response.body)
     end
   end
@@ -353,7 +353,7 @@ describe 'the example app' do
 
       header 'Authorization', auth_header
       post '/api/v1/prequalify', JSON.generate(@request)
-      assert_equal 500, last_response.status
+      assert_equal 422, last_response.status
 
       assert_match /^company: business_name is required/, last_response.body
       assert_match /^company: entity_type must be one of/, last_response.body
