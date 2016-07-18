@@ -26,6 +26,8 @@ class Underwriting
         return Decision.new(preapproved: true, offers: offers)
       when 'declined'
         return Decision.new(preapproved: false, rejection_reason: 'testing')
+      when 'crash'
+        raise 'oops, something went wrong'
       end
     end
 

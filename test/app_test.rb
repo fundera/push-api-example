@@ -301,6 +301,14 @@ describe 'the example app' do
       assert !response.key?('rejection_reason')
     end
 
+    it 'forces a 500 error with a special value' do
+      @request[:owners][0][:first_name] = 'crash'
+      header 'Authorization', auth_header
+      post '/api/v1/prequalify', JSON.generate(@request)
+      assert_equal 500, last_response.status
+      assert_match /oops/, last_response.body
+    end
+
     it 'can approve with minimal fields' do
       @request[:owners] = [@request[:owners][0]]
       @request[:owners][0].tap do |owner|

@@ -75,7 +75,11 @@ post '/api/v1/prequalify' do
     end
 
     if application.valid?
-      application.decision = Underwriting.new(test_mode: settings.allow_test_responses).preapprove(application)
+      begin
+        application.decision = Underwriting.new(test_mode: settings.allow_test_responses).preapprove(application)
+      rescue => e
+        return [500, e.to_s]
+      end
       if application.decision.preapproved && settings.return_offer_urls
         application.decision.offers.each_with_index do |offer, i|
           offer.url = url("/apply-for-loan/#{application.company.uuid}?offer=#{i + 1}")
