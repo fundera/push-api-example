@@ -22,13 +22,11 @@ describe 'the example app' do
     Store.delete_all('test')
   end
 
-  describe 'api generally' do
+  describe 'APIs generally' do
     it 'responds to POST' do
+      header 'Authorization', auth_header
       get '/api/v1/prequalify'
       assert_equal 404, last_response.status
-
-      post '/api/v1/prequalify'
-      assert 404 != last_response.status
     end
 
     it 'returns 401 with missing auth' do
@@ -51,7 +49,7 @@ describe 'the example app' do
     end
   end
 
-  describe 'api with a realistic request' do
+  describe 'prequalifcation API' do
     before do
       @request = {
         owners: [
@@ -367,6 +365,51 @@ describe 'the example app' do
       assert_match /^company: entity_type must be one of/, last_response.body
       assert_match /^owners \(1\): ownership_percentage must be at least 0 and 100 or less/, last_response.body
       assert_match /^owners \(2\): date_of_birth must match YYYY-MM-DD/, last_response.body
+    end
+  end
+
+  describe 'documents API' do
+    before do
+      @uuid = '123-456'
+      @application = Application.new
+      Store.for(Application, 'test') do |store|
+        store.put(@uuid, @application)
+      end
+    end
+
+    it 'returns various errors' do
+      header 'Authorization', auth_header
+      post '/api/v1/documents'
+      assert_equal 400, last_response.status
+      assert_match /multipart/, last_response.body
+
+      post '/api/v1/documents', file: Rack::Test::UploadedFile.new('test/fixtures/testdoc.pdf', 'application/pdf')
+      assert_equal 422, last_response.status
+      assert_match /^Missing parameter/, last_response.body
+
+      post '/api/v1/documents', file: Rack::Test::UploadedFile.new('test/fixtures/testdoc.pdf', 'application/pdf'), company_uuid: @uuid
+      assert_equal 422, last_response.status
+      assert_match /document_type is required/, last_response.body
+    end
+
+    it 'stores the document on an application' do
+      header 'Authorization', auth_header
+      post '/api/v1/documents', file: Rack::Test::UploadedFile.new('test/fixtures/testdoc.pdf', 'application/pdf'), company_uuid: @uuid, document_type: 'Bank Statement'
+      assert_equal 200, last_response.status
+
+      post '/api/v1/documents', file: Rack::Test::UploadedFile.new('test/fixtures/testdoc.pdf', 'application/pdf'), company_uuid: @uuid, document_type: 'Tax Return', document_periods: '2014, 2015'
+      assert_equal 200, last_response.status
+
+      Store.for(Application, 'test') do |store|
+        application = store.get(@uuid)
+        assert_equal 2, application.documents.size
+        assert_equal 'Bank Statement', application.documents[0].document_type
+        assert_equal nil, application.documents[0].document_periods
+        assert !application.documents[0].uuid.nil?
+        assert_equal 'Tax Return', application.documents[1].document_type
+        assert_equal '2014, 2015', application.documents[1].document_periods
+        assert !application.documents[1].uuid.nil?
+      end
     end
   end
 end

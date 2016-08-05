@@ -42,7 +42,6 @@ end
 
 # require authorization for the API.
 before '/api/v1/*' do
-  next unless request.post?
   unless request.env['HTTP_AUTHORIZATION'] == "Basic #{Base64.strict_encode64("#{settings.api_username}:#{settings.api_password}")}"
     halt 401, 'Not authorized'
   end
@@ -50,7 +49,7 @@ end
 
 # handle JSON post bodies for the API.
 before '/api/v1/*' do
-  next unless request.post?
+  next if !request.post? || request.path =~ /\/documents$/
   begin
     request.body.rewind
     @request_body = JSON.parse(request.body.read)
@@ -59,9 +58,9 @@ before '/api/v1/*' do
   end
 end
 
-# ensure successful API responses have a JSON content-type.
+# ensure successful API responses have a JSON content-type, if not content-type is set.
 after '/api/v1/*' do
-  response.headers['Content-Type'] = 'application/json; charset=utf-8' if response.status == 200
+  response.headers['Content-Type'] = 'application/json; charset=utf-8' if response.status == 200 && !response.headers.key?('Content-Type')
 end
 
 # handle prequalification API requests.
@@ -96,6 +95,35 @@ post '/api/v1/prequalify' do
   end
 end
 
+# handle document uploads.
+post '/api/v1/documents' do
+  return [400, 'POST body must be multipart/form-data'] unless (request.env['CONTENT_TYPE'] || '') =~ /^multipart\/form-data/
+
+  file = params[:file]
+  filename = file && file[:filename]
+  file_handle = file && file[:tempfile]
+  return [422, 'Missing parameter: file'] unless file && filename && file_handle
+  uuid = params[:company_uuid]
+  return [422, 'Missing parameter: company_uuid'] unless uuid
+
+  Store.for(Application, settings.environment) do |store|
+    application = store.get(uuid)
+    return [404, "No application for ID #{uuid}"] unless application
+    document = Document.new
+    document.attributes = {
+      uuid: SecureRandom.uuid,
+      filename: filename,
+      data: file_handle.read,
+      document_type: params[:document_type],
+      document_periods: params[:document_periods]
+    }
+    return [422, document.errors.join("\n")] unless document.valid?
+    application.documents << document
+    store.put(uuid, application)
+  end
+  [200]
+end
+
 ## "admin" pages, for viewing API submissions.
 
 before '/admin/*' do
@@ -121,6 +149,32 @@ get '/admin/application/:uuid' do
     erb 'admin/application'.to_sym
   else
     [404]
+  end
+end
+
+get '/admin/application/:application_uuid/document/:document_uuid' do
+  Store.for(Application, settings.environment) do |store|
+    application = store.get(params[:application_uuid])
+    document = (application.documents || []).find { |d| d.uuid == params[:document_uuid] } if application
+    if document
+      content_type(
+        case document.filename.downcase
+        when /\.pdf$/
+          'application/pdf'
+        when /\.jpg$/
+          'image/jpeg'
+        when /\.png$/
+          'image/png'
+        when /\.txt$/
+          'text/plain'
+        else
+          'application/octet-stream'
+        end
+      )
+      [200, document.data]
+    else
+      [404]
+    end
   end
 end
 

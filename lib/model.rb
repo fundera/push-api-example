@@ -1,7 +1,7 @@
 class Model
   attr_reader :errors, :created_at, :updated_at
 
-  def initialize(attributes)
+  def initialize(attributes = {})
     self.attributes = attributes
   end
 

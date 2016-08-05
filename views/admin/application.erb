@@ -1,4 +1,4 @@
-<p><a href="<%= url('/admin/applications') %>">Back to application list</a></p>
+<p><a href="/admin/applications">Back to application list</a></p>
 
 <h3>Application: <%= @application.company.business_name %></h3>
 
@@ -7,13 +7,35 @@
   <li>Updated At: <%= @application.updated_at.strftime('%D %T') %></li>
 </ul>
 
+<br/>
 <h5>Decision:</h5>
 <pre><%= JSON.pretty_generate(@application.decision.to_hash) %></pre>
 
+<br/>
 <h5>Company:</h5>
 <pre><%= JSON.pretty_generate(@application.company.to_hash) %></pre>
 
+<br/>
 <h5>Owner(s):</h5>
 <% (@application.owners || []).each do |owner| %>
   <pre><%= JSON.pretty_generate(owner.to_hash) %></pre>
+<% end %>
+
+<% unless (@application.documents || []).empty? %>
+  <br/>
+  <h5>Documents:</h5>
+  <table class="table">
+    <thead>
+      <th>Filename</th>
+      <th>Document Type</th>
+      <th>Document Period(s)</th>
+    </thead>
+    <% (@application.documents || []).each do |document| %>
+      <tr>
+        <td><a href="/admin/application/<%= @application.company.uuid %>/document/<%= document.uuid %>" target="_blank"><%= document.filename %></a></td>
+        <td><%= document.document_type %></td>
+        <td><%= document.document_periods %></td>
+      </tr>
+    <% end %>
+  </ul>
 <% end %>

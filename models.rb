@@ -88,8 +88,20 @@ class Decision < Model
   field :offers, Offer, required: false, list: true
 end
 
+class Document < Model
+  field :uuid, String
+  field :filename, String
+  field :data, String # binary
+  field :document_type, String
+  field :document_periods, String, required: false
+end
+
 class Application < Model
   field :owners, Owner, list: true
   field :company, Company
   field :decision, Decision, required: false
+
+  def documents
+    @documents ||= []
+  end
 end

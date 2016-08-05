@@ -7,7 +7,7 @@ This is a reference implementation in Ruby of [Fundera's](https://www.fundera.co
 The specification is here:
 [Fundera -- Prequalification & Underwriting APIs 2016](https://docs.google.com/document/d/1cG1Q4vtQ4y3AGq-bO0u0Q9KuicqqHoFOFQ6Xry76G3E/edit)
 
-This project implements the "Prequalification API" there described.
+This project implements the "Prequalification API" and "Documents API" described there.
 
 ## Install and Run
 
@@ -48,6 +48,7 @@ This implementation demonstrates the following features mentioned in the spec:
 * HTTP statuses for malformed requests and other errors.
 * Handling and validating the many data fields, many of them optional, sent in API requests.
 * Storing requests and producing a preapproval decision, with or without provisional loan offers.
+* Uploading documents to support an approved decision.
 * Multiple environments (development, staging, production).
 * Triggering test responses with special field values.
 * Providing an optional URL on each loan offer, via which loan customers can visit the API implementer's site to claim an offer.
