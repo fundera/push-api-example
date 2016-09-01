@@ -119,6 +119,7 @@ describe 'the example app' do
           loan_amount: 55_000,
           loan_purpose: 'Working capital',
           industry: 'Farm Goods Distribution',
+          industry_naics: '124892',
           business_name: 'Farm Co Inc.',
           business_dba: 'FarmGood!',
           entity_type: 'C Corporation',

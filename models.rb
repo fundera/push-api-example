@@ -40,6 +40,7 @@ class Company < Model
   field :loan_amount, Integer
   field :loan_purpose, String, value_in: FieldOptions::LOAN_PURPOSE
   field :industry, String, value_in: FieldOptions::INDUSTRY
+  field :industry_naics, String
   field :business_name, String
   field :business_dba, String, required: false
   field :entity_type, String, value_in: FieldOptions::ENTITY_TYPE
