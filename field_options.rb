@@ -116,6 +116,26 @@ module FieldOptions
     'Other current or previous legal action against this business'
   ]
 
+  DEBT_TYPE = [
+    'Cash Advance',
+    'Term Loan',
+    'Business Credit Cards',
+    'Equipment Finance',
+    'Invoice Financing',
+    'Line of Credit',
+    'Private Debt',
+    'Business Mortgage',
+    'Other'
+  ]
+
+  PAYMENT_FREQUENCY = [
+    'Other',
+    'Daily',
+    'Weekly',
+    'Bi-Weekly',
+    'Monthly'
+  ]
+
   CREDIT_SCORE = [
     'Excellent (700+)',
     'Excellent (660-699)',

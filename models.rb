@@ -33,6 +33,18 @@ class Owner < Model
   field :value_of_nonretirement_assets, Integer, required: false
   field :value_of_retirement_assets, Integer, required: false
   field :citizenship, String, required: false, value_in: FieldOptions::CITIZENSHIP
+  field :permission_to_pull_credit, [TrueClass, FalseClass]
+  field :permission_to_pull_credit_date, String, date: true
+end
+
+class Debt < Model
+  field :type, String, value_in: FieldOptions::DEBT_TYPE
+  field :refinance, [TrueClass, FalseClass]
+  field :amount_remaining, Integer
+  field :original_amount_borrowed, Integer
+  field :payment_amount, Integer
+  field :payment_frequency, String, required: false, value_in: FieldOptions::PAYMENT_FREQUENCY
+  field :lender, String, required: false
 end
 
 class Company < Model
@@ -53,6 +65,7 @@ class Company < Model
   field :ein, String, required: false
   field :number_of_employees, Integer, required: false
   field :annual_revenue, Integer
+  field :annual_profit, Integer, required: false
   field :average_bank_balance, Integer, required: false
   field :accounts_receivable, Integer, required: false
   field :business_inception, String, date: true
@@ -62,6 +75,7 @@ class Company < Model
   field :monthly_business_location_payment, Integer, required: false
   field :business_location_rent_or_own, String, required: false, value_in: FieldOptions::BUSINESS_LOCATION_RENT_OR_OWN
   field :officer_in_lawsuit, String, required: false, value_in: FieldOptions::OFFICER_IN_LAWSUIT
+  field :debts, Debt, list: true, required: false
 end
 
 class Offer < Model
@@ -101,6 +115,7 @@ class Application < Model
   field :owners, Owner, list: true
   field :company, Company
   field :decision, Decision, required: false
+  field :fields_version, Integer
 
   def documents
     @documents ||= []

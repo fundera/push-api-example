@@ -81,7 +81,9 @@ describe 'the example app' do
             value_of_liquid_assets: 20_000,
             value_of_nonretirement_assets: 40_000,
             value_of_retirement_assets: 30_000,
-            citizenship: 'US Citizen'
+            citizenship: 'US Citizen',
+            permission_to_pull_credit: true,
+            permission_to_pull_credit_date: Date.today.to_s
           },
           {
             uuid: '62og0vw4-lt52-4qdi-2f7a-08b74mf3de32',
@@ -111,7 +113,9 @@ describe 'the example app' do
             value_of_liquid_assets: 20_000,
             value_of_nonretirement_assets: 40_000,
             value_of_retirement_assets: 30_000,
-            citizenship: 'US Citizen'
+            citizenship: 'US Citizen',
+            permission_to_pull_credit: true,
+            permission_to_pull_credit_date: Date.today.to_s
           }
         ],
         company: {
@@ -132,6 +136,7 @@ describe 'the example app' do
           ein: '121234567',
           number_of_employees: 19,
           annual_revenue: 1_800_000,
+          annual_profit: 250_000,
           average_bank_balance: 40_000,
           accounts_receivable: 25_000,
           business_inception: '2010-02-10',
@@ -140,8 +145,29 @@ describe 'the example app' do
           business_location_type: 'Office',
           monthly_business_location_payment: 2_000,
           business_location_rent_or_own: 'Rent',
-          officer_in_lawsuit: 'No previous or current legal actions'
-        }
+          officer_in_lawsuit: 'No previous or current legal actions',
+          debts: [
+            {
+              type: 'Term Loan',
+              refinance: true,
+              amount_remaining: 2_000,
+              original_amount_borrowed: 20_000,
+              payment_amount: 200,
+              payment_frequency: 'Monthly',
+              lender: 'Big Bank'
+            },
+            {
+              type: 'Line of Credit',
+              refinance: false,
+              amount_remaining: 500,
+              original_amount_borrowed: 10_000,
+              payment_amount: 100,
+              payment_frequency: 'Weekly',
+              lender: 'Fancy Capital LLP'
+            }
+          ]
+        },
+        fields_version: 2
       }
     end
 
@@ -332,6 +358,7 @@ describe 'the example app' do
         company.delete(:street_line2)
         company.delete(:ein)
         company.delete(:number_of_employees)
+        company.delete(:annual_profit)
         company.delete(:average_bank_balance)
         company.delete(:accounts_receivable)
         company.delete(:last_bankruptcy)
@@ -340,6 +367,7 @@ describe 'the example app' do
         company.delete(:business_location_type)
         company.delete(:monthly_business_location_payment)
         company.delete(:business_location_rent_or_own)
+        company.delete(:debts)
       end
 
       header 'Authorization', auth_header
