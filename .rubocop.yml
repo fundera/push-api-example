@@ -28,6 +28,9 @@ Style/NegatedIf:
 Style/MutableConstant:
   Enabled: false
 
+Style/WordArray:
+  Enabled: false
+
 # Disable all metrics around file/line size
 Metrics/LineLength:
   Enabled: false
@@ -109,6 +112,9 @@ Style/Lambda:
 Style/PredicateName:
   NamePrefixBlacklist:
     - is_
+
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
 
 # Rules to maybe reenable if someone wants to clean up the resulting errors.
 Rails/Validation:
