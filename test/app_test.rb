@@ -38,7 +38,7 @@ describe 'the example app' do
       header 'Authorization', auth_header
       post '/api/v1/prequalify'
       assert_equal 400, last_response.status
-      assert_match /contain two octets/, last_response.body
+      assert_match /\w+/, last_response.body
     end
 
     it 'returns a 500 validation error in the response with valid auth and valid but empty JSON body' do
@@ -433,7 +433,7 @@ describe 'the example app' do
         application = store.get(@uuid)
         assert_equal 2, application.documents.size
         assert_equal 'Bank Statement', application.documents[0].document_type
-        assert_equal nil, application.documents[0].document_periods
+        assert_nil application.documents[0].document_periods
         assert !application.documents[0].uuid.nil?
         assert_equal 'Tax Return', application.documents[1].document_type
         assert_equal '2014, 2015', application.documents[1].document_periods
