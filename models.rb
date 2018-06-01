@@ -33,6 +33,7 @@ class Owner < Model
   field :value_of_nonretirement_assets, Integer, required: false
   field :value_of_retirement_assets, Integer, required: false
   field :citizenship, String, required: false, value_in: FieldOptions::CITIZENSHIP
+  field :ip_address, String, required: false
   field :permission_to_pull_credit, [TrueClass, FalseClass]
   field :permission_to_pull_credit_date, String, date: true
 end
