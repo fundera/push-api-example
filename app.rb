@@ -79,7 +79,7 @@ post '/api/v1/prequalify' do
       rescue => e
         return [500, e.to_s]
       end
-      if application.decision.preapproved && settings.return_offer_urls
+      if application.decision.decision == 'preapproved' && settings.return_offer_urls
         application.decision.offers.each_with_index do |offer, i|
           offer.url = url("/apply-for-loan/#{application.company.uuid}?offer=#{i + 1}")
         end
@@ -184,7 +184,7 @@ get '/apply-for-loan/:uuid' do
   Store.for(Application, settings.environment) do |store|
     @application = store.get(params[:uuid])
   end
-  if @application && @application.decision.preapproved
+  if @application && @application.decision.decision == 'preapproved'
     @offer =
       if params[:offer] && params[:offer].to_i > 0
         @application.decision.offers[params[:offer].to_i - 1]

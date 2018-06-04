@@ -23,16 +23,18 @@ class Underwriting
             miscellaneous_fee: [100, 200, 300].sample
           )
         end
-        return Decision.new(preapproved: true, offers: offers)
+        return Decision.new(decision: 'preapproved', offers: offers)
+      when 'pending'
+        return Decision.new(decision: 'pending')
       when 'declined'
-        return Decision.new(preapproved: false, rejection_reason: 'testing')
+        return Decision.new(decision: 'declined', rejection_reason: 'testing')
       when 'crash'
         raise 'oops, something went wrong'
       end
     end
 
     if %w(NV VT PR DC).include?(application.company.state)
-      return Decision.new(preapproved: false, rejection_reason: "can't lend to businesses in #{application.company.state}")
+      return Decision.new(decision: 'declined', rejection_reason: "can't lend to businesses in #{application.company.state}")
     end
 
     loan_amounts_and_terms =
@@ -46,7 +48,7 @@ class Underwriting
         [[20_000, 12]]
       end
     unless loan_amounts_and_terms
-      return Decision.new(preapproved: false, rejection_reason: 'annual revenue is too low')
+      return Decision.new(decision: 'declined', rejection_reason: 'annual revenue is too low')
     end
 
     interest_rate =
@@ -59,7 +61,7 @@ class Underwriting
         21.0
       end
     unless interest_rate
-      return Decision.new(preapproved: false, rejection_reason: 'owner credit is too low')
+      return Decision.new(decision: 'declined', rejection_reason: 'owner credit is too low')
     end
 
     offers = loan_amounts_and_terms.map do |loan_amount, term|
@@ -71,6 +73,6 @@ class Underwriting
         origination_fee: 1.0
       )
     end
-    Decision.new(preapproved: true, offers: offers)
+    Decision.new(decision: 'preapproved', offers: offers)
   end
 end

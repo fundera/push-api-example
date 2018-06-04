@@ -4,7 +4,7 @@
 <table class="table">
   <thead>
     <th>Company</th>
-    <th>Preapproved?</th>
+    <th>Decision</th>
     <th>Offers</th>
     <th>Documents</th>
     <th>Created At</th>
@@ -13,7 +13,7 @@
   <% @applications.each do |key, application| %>
     <tr>
       <td><a href="<%= url("/admin/application/#{application.company.uuid}") %>"><%= application.company.business_name %></a></td>
-      <td><%= application.decision.preapproved %></td>
+      <td><%= application.decision.decision || (application.decision.preapproved ? 'preapproved' : 'declined') %></td>
       <td><%= (application.decision.offers || []).size %></td>
       <td><%= (application.documents || []).size %></td>
       <td><%= application.created_at.strftime('%D %T') %></td>

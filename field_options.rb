@@ -173,4 +173,10 @@ module FieldOptions
     'Bi-Weekly',
     'Monthly'
   ]
+
+  DECISIONS = [
+    'preapproved',
+    'pending',
+    'declined'
+  ]
 end

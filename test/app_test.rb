@@ -178,7 +178,7 @@ describe 'the example app' do
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
 
-      assert_equal true, response['preapproved']
+      assert_equal 'preapproved', response['decision']
       assert !response.key?('rejection_reason')
       assert_equal false, response['updated']
       assert_equal 3, response['offers'].size
@@ -222,7 +222,7 @@ describe 'the example app' do
       assert_equal 200, last_response.status
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
-      assert_equal true, response['preapproved']
+      assert_equal 'preapproved', response['decision']
       assert !response.key?('rejection_reason')
       assert_equal false, response['updated']
       assert_equal 3, response['offers'].size
@@ -232,7 +232,7 @@ describe 'the example app' do
       assert_equal 200, last_response.status
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
-      assert_equal true, response['preapproved']
+      assert_equal 'preapproved', response['decision']
       assert !response.key?('rejection_reason')
       assert_equal true, response['updated']
       assert_equal 1, response['offers'].size
@@ -242,6 +242,16 @@ describe 'the example app' do
       end
     end
 
+    it 'return pending' do
+      @request[:owners][0][:first_name] = 'pending'
+      header 'Authorization', auth_header
+      post '/api/v1/prequalify', JSON.generate(@request)
+      assert_equal 200, last_response.status
+      response = JSON.parse(last_response.body)
+      assert Decision.new(response).valid?
+      assert_equal 'pending', response['decision']
+    end
+
     it 'declines' do
       @request[:company][:state] = 'NV'
       header 'Authorization', auth_header
@@ -249,7 +259,7 @@ describe 'the example app' do
       assert_equal 200, last_response.status
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
-      assert_equal false, response['preapproved']
+      assert_equal 'declined', response['decision']
       assert_match /lend to businesses in/, response['rejection_reason']
       assert_equal false, response['updated']
       assert !response.key?('offers')
@@ -259,7 +269,7 @@ describe 'the example app' do
       assert_equal 200, last_response.status
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
-      assert_equal true, response['preapproved']
+      assert_equal 'preapproved', response['decision']
       assert !response.key?('rejection_reason')
 
       @request[:company][:annual_revenue] = 50_000
@@ -267,7 +277,7 @@ describe 'the example app' do
       assert_equal 200, last_response.status
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
-      assert_equal false, response['preapproved']
+      assert_equal 'declined', response['decision']
       assert_equal 'annual revenue is too low', response['rejection_reason']
       assert_equal true, response['updated']
       assert !response.key?('offers')
@@ -277,7 +287,7 @@ describe 'the example app' do
       assert_equal 200, last_response.status
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
-      assert_equal true, response['preapproved']
+      assert_equal 'preapproved', response['decision']
       assert !response.key?('rejection_reason')
 
       @request[:owners][0][:credit_score] = 'Challenged (Below 550)'
@@ -285,7 +295,7 @@ describe 'the example app' do
       assert_equal 200, last_response.status
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
-      assert_equal false, response['preapproved']
+      assert_equal 'declined', response['decision']
       assert_equal 'owner credit is too low', response['rejection_reason']
       assert_equal true, response['updated']
       assert !response.key?('offers')
@@ -297,7 +307,7 @@ describe 'the example app' do
       assert_equal 200, last_response.status
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
-      assert_equal true, response['preapproved']
+      assert_equal 'preapproved', response['decision']
       assert !response.key?('rejection_reason')
 
       @request[:owners][0][:first_name] = 'declined'
@@ -305,7 +315,7 @@ describe 'the example app' do
       assert_equal 200, last_response.status
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
-      assert_equal false, response['preapproved']
+      assert_equal 'declined', response['decision']
       assert_equal 'testing', response['rejection_reason']
 
       @request[:owners][0][:first_name] = 'Janet'
@@ -314,7 +324,7 @@ describe 'the example app' do
       assert_equal 200, last_response.status
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
-      assert_equal false, response['preapproved']
+      assert_equal 'declined', response['decision']
       assert_equal 'annual revenue is too low', response['rejection_reason']
 
       @request[:owners][0][:first_name] = 'approved'
@@ -322,7 +332,7 @@ describe 'the example app' do
       assert_equal 200, last_response.status
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
-      assert_equal true, response['preapproved']
+      assert_equal 'preapproved', response['decision']
       assert !response.key?('rejection_reason')
     end
 
@@ -375,7 +385,7 @@ describe 'the example app' do
       assert_equal 200, last_response.status
       response = JSON.parse(last_response.body)
       assert Decision.new(response).valid?
-      assert_equal true, response['preapproved']
+      assert_equal 'preapproved', response['decision']
       assert !response.key?('rejection_reason')
       assert_equal 3, response['offers'].size
     end

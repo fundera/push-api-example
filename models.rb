@@ -99,7 +99,8 @@ class Offer < Model
 end
 
 class Decision < Model
-  field :preapproved, [TrueClass, FalseClass]
+  field :decision, String, value_in: FieldOptions::DECISIONS
+  field :preapproved, [TrueClass, FalseClass], required: false
   field :rejection_reason, String, required: false
   field :offers, Offer, required: false, list: true
 end
