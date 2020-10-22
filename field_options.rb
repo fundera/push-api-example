@@ -6,11 +6,17 @@ module FieldOptions
     'Buying out a partner',
     'Marketing/advertising',
     'Working capital',
-    'Refinancing/consolidating debt',
+    'Refinancing / consolidating debt',
     'Remodeling an existing location',
     'Purchasing equipment',
     'Repairing equipment',
-    'Other'
+    'Other',
+    "COVID Relief",
+    "I don't know",
+    "Factoring Invoices",
+    "Payroll",
+    "Lease or Mortgage Interest",
+    "Utilities"
   ]
 
   INDUSTRY = [
